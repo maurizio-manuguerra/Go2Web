@@ -6,7 +6,7 @@
 #' @param redirect.to.null Defaults to TRUE
 #' @examples Go2Web()
 
-Go2Web <- function(port=8000, redirect.to.null=TRUE){
+Go2Web <- function(port="8000", redirect.to.null=TRUE){
   redirect=""
   if (redirect.to.null) redirect=">/dev/null"
   cmd <- paste("python -m SimpleHTTPServer ", port, " &", redirect, sep="")

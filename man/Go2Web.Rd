@@ -4,7 +4,7 @@
 \alias{Go2Web}
 \title{Go2Web}
 \usage{
-Go2Web(port = 8000, redirect.to.null = TRUE)
+Go2Web(port = "8000", redirect.to.null = TRUE)
 }
 \arguments{
 \item{port}{Defaults to 8000}
