@@ -11,6 +11,7 @@ webserver.start <- function(port="8000", redirect.to.null=TRUE){
   if (redirect.to.null) redirect=" &>/dev/null"
   cmd <- paste("python -m SimpleHTTPServer ", port, redirect, " &", sep="")
   system(cmd)
+  .Last <<- function() webserver.stop()
 }
 
 #' @title webserver.stop
