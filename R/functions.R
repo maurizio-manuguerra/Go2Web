@@ -26,3 +26,17 @@ webserver.stop <- function(port=8000){
   system(cmd)
   rm(.Last, envir=.GlobalEnv)
 }
+
+#' @title webserver.status
+#' @description This function checks if a python SimpleHTTPServer is running.
+#' @examples webserver.status()
+
+webserver.status <- function(){
+  x <- system(paste("ps aux"),intern = T)
+  running <- any(grepl("python -m SimpleHTTPServer",x))
+  if (running) {
+    cat("'python -m SimpleHTTPServer' is running")
+  } else {
+    cat("'python -m SimpleHTTPServer' is NOT running")
+  }
+}
