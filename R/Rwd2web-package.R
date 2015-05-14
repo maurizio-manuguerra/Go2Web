@@ -1,6 +1,6 @@
-#' Go2Web-package
+#' Rwd2web-package
 #'
-#' @name Go2Web-package
+#' @name Rwd2web-package
 #' @docType package
 #' @details This package publish the content of the current directory on a web server created with python. 
 #' Technically, it runs the system command "python -m SimpleHTTPServer 8000 &>/dev/null". 
