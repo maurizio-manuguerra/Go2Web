@@ -4,7 +4,7 @@
 \alias{webserver.stop}
 \title{webserver.stop}
 \usage{
-webserver.stop(port = "8000")
+webserver.stop(port = 8000)
 }
 \arguments{
 \item{port}{Defaults to 8000}

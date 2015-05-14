@@ -4,7 +4,7 @@
 \alias{webserver.start}
 \title{webserver.start}
 \usage{
-webserver.start(port = "8000", redirect.to.null = TRUE)
+webserver.start(port = 8000, redirect.to.null = TRUE)
 }
 \arguments{
 \item{port}{Defaults to 8000}

@@ -6,20 +6,23 @@
 #' @param redirect.to.null Defaults to TRUE
 #' @examples webserver.start()
 
-webserver.start <- function(port="8000", redirect.to.null=TRUE){
+webserver.start <- function(port=8000, redirect.to.null=TRUE){
   redirect=""
   if (redirect.to.null) redirect=" &>/dev/null"
-  cmd <- paste("python -m SimpleHTTPServer ", port, redirect, " &", sep="")
+  cmd <- paste("python -m SimpleHTTPServer ", as.character(port), redirect, " &", sep="")
   system(cmd)
-  .Last <<- function() webserver.stop()
+  .Last <<- eval(parse(text=paste("function() webserver.stop(port=",as.character(port),")")))
 }
+
+
 
 #' @title webserver.stop
 #' @description This function stops the web server started with ``webserver.start()''. The default port is 8000 and can be changed by the user to whatever port the server is running on.
 #' @param port Defaults to 8000
 #' @examples webserver.stop()
 
-webserver.stop <- function(port="8000"){
-  cmd <- paste("killall -e python -m SimpleHTTPServer ", port, sep="")
+webserver.stop <- function(port=8000){
+  cmd <- paste("killall -e python -m SimpleHTTPServer ", as.character(port), sep="")
   system(cmd)
+  rm(.Last, envir=.GlobalEnv)
 }
