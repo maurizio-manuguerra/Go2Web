@@ -1,4 +1,4 @@
-Package: Go2Web
+Package: Rwd2web
 Type: Package
 Title: This package publish the content of the current directory on a web server created with python.
 Version: 1.0
