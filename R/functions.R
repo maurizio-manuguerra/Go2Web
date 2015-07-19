@@ -6,16 +6,17 @@
 #' @param redirect.to.null Defaults to TRUE
 #' @examples webserver.start()
 
-webserver.start <- function(port=8004, redirect.to.null=TRUE, lang=c('ruby', 'python')){
+webserver.start <- function(port=27360, stdout=FALSE, stderr=FALSE, lang=c('python', 'ruby')){
+  cmd= match.arg(lang)
   redirect=""
-  if (redirect.to.null) redirect=" &>/dev/null"
-  if (lang=='python'){
-    cmd <- paste("python -m SimpleHTTPServer ", as.character(port), redirect, " &", sep="")
-  } else if (lang=='ruby'){
-    cmd <- paste("ruby -run -ehttpd . -p ", as.character(port), redirect, " &", sep="")
+  redirect =" > ~/temp/little-web-server.log 2>&1"
+  if (cmd=='python'){
+    opt <- paste("-m SimpleHTTPServer ", as.character(port), redirect, " &", sep="")
+  } else if (cmd=='ruby'){
+    opt <- paste("-run -ehttpd . -p ", as.character(port), redirect, " &", sep="")
   }
-  system(cmd)
-  .Last <<- eval(parse(text=paste("function() webserver.stop(port=",as.character(port),")")))
+  system2(cmd, args=opt, stdout=stdout, stderr=stderr)
+  .Last <<- eval(parse(text=paste("function() webserver.stop(lang='",cmd,"')",sep="")))
 }
 
 
@@ -25,13 +26,13 @@ webserver.start <- function(port=8004, redirect.to.null=TRUE, lang=c('ruby', 'py
 #' @param port Defaults to 8004
 #' @examples webserver.stop()
 
-webserver.stop <- function(port=8004, lang=c('ruby', 'python')){
+webserver.stop <- function(lang=c('ruby', 'python')){
+  lang= match.arg(lang)
   if (lang=='python'){
-    cmd <- paste("killall -e python -m SimpleHTTPServer ", as.character(port), sep="")
+    cmd <- "pkill -f 'python -m SimpleHTTPServer'"
   } else if (lang=='ruby'){
-    cmd <- "killall -e ruby"
+    cmd <- "pkill -f 'ruby -ehttpd'"
   }
-
   system(cmd)
   rm(.Last, envir=.GlobalEnv)
 }
@@ -41,11 +42,13 @@ webserver.stop <- function(port=8004, lang=c('ruby', 'python')){
 #' @examples webserver.status()
 
 webserver.status <- function(lang=c('ruby', 'python')){
+  lang= match.arg(lang)
   x <- system(paste("ps aux"),intern = T)
   if (lang=='python'){
     running <- any(grepl("python -m SimpleHTTPServer",x))
   } else if (lang=='ruby'){
     running <- any(grepl("ruby", x))
+  }
   if (running) {
     cat("The webserver is running")
   } else {
