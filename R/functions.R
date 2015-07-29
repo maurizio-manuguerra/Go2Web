@@ -15,8 +15,9 @@ webserver.start <- function(port=27360, stdout=FALSE, stderr=FALSE, lang=c('pyth
   } else if (cmd=='ruby'){
     opt <- paste("-run -ehttpd . -p ", as.character(port), redirect, " &", sep="")
   }
+  try(webserver.stop(), silent=T)
   system2(cmd, args=opt, stdout=stdout, stderr=stderr)
-  .Last <<- eval(parse(text=paste("function() webserver.stop(lang='",cmd,"')",sep="")))
+  .Last <<- eval(parse(text=paste("function() try(webserver.stop(lang='",cmd,"'),silent=T)",sep="")))
 }
 
 
