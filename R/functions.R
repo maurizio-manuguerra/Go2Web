@@ -35,7 +35,7 @@ webserver.stop <- function(lang=c('ruby', 'python')){
     cmd <- "pkill -f 'ruby -ehttpd'"
   }
   system(cmd)
-  rm(.Last, envir=.GlobalEnv)
+  if (exists(".Last")) rm(.Last, envir=.GlobalEnv)
 }
 
 #' @title webserver.status
